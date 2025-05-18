@@ -767,6 +767,9 @@ class FiniteRange(Domain):
     def values(self):
         return self._values
 
+    def is_valid(self, value: float):
+        return value in self.values
+
     def _map_from_int(self, x: int) -> Union[float, int]:
         y = x * self._step_internal + self._lower_internal
         if self.log_scale:

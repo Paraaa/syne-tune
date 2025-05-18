@@ -21,7 +21,7 @@ class BenchmarkDefinition:
     datasets: Optional[List[str]] = None
 
 
-n_full_evals = 200
+n_full_evals = 100
 
 
 def fcnet_benchmark(dataset_name):
@@ -84,10 +84,10 @@ def tabrepo_benchmark(blackbox_name: str, dataset_name: str, datasets: list[str]
 
 
 benchmark_definitions = {
-    "fcnet-protein": fcnet_benchmark("protein_structure"),
-    "fcnet-naval": fcnet_benchmark("naval_propulsion"),
-    "fcnet-parkinsons": fcnet_benchmark("parkinsons_telemonitoring"),
-    "fcnet-slice": fcnet_benchmark("slice_localization"),
+    "fcnet-protein": fcnet_benchmark("protein_structure"),  # Run this
+    "fcnet-naval": fcnet_benchmark("naval_propulsion"), # Run this
+    "fcnet-parkinsons": fcnet_benchmark("parkinsons_telemonitoring"), # Run this
+    "fcnet-slice": fcnet_benchmark("slice_localization"), # Run this
     "nas201-cifar10": nas201_benchmark("cifar10"),
     "nas201-cifar100": nas201_benchmark("cifar100"),
     "nas201-ImageNet16-120": nas201_benchmark("ImageNet16-120"),
@@ -106,26 +106,28 @@ benchmark_definitions = {
 
 
 # 5 most expensive lcbench datasets
-lc_bench_datasets = [
-    "Fashion-MNIST",
-    "airlines",
-    "albert",
-    "covertype",
-    "christine",
-]
-for task in lc_bench_datasets:
-    benchmark_definitions[
-        "lcbench-" + task.replace("_", "-").replace(".", "")
-    ] = lcbench_benchmark(task, datasets=lc_bench_datasets)
+# lc_bench_datasets = [
+#     "Fashion-MNIST",
+#     "airlines",
+#     "albert",
+#     "covertype",
+#     "christine",
+# ]
+# for task in lc_bench_datasets:
+#     benchmark_definitions[
+#         "lcbench-" + task.replace("_", "-").replace(".", "")
+#     ] = lcbench_benchmark(task, datasets=lc_bench_datasets)
 
 
-# We select a sublist of search spaces
+# # We select a sublist of search spaces
 tabrepo_search_spaces = [
-    "RandomForest",
-    "CatBoost",
-    "LightGBM",
-    "NeuralNetTorch",
-    "ExtraTrees",
+    # "LinearModel",
+    # "RandomForest", # Run this
+    # "CatBoost", # Run this
+    # "KNeighbors",
+    # "LightGBM",
+    # "NeuralNetTorch",
+    # "ExtraTrees",
 ]
 # TODO find list of 10 representative datasets among the 200+ available
 tabrepo_datasets = TABREPO_DATASETS[:10]

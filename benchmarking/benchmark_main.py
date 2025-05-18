@@ -1,10 +1,10 @@
 import itertools
 import logging
 from argparse import ArgumentParser
-
+import pandas as pd
 import numpy as np
 from tqdm import tqdm
-
+import os
 from benchmarking.baselines import (
     MethodArguments,
     methods,
@@ -18,6 +18,7 @@ from syne_tune.blackbox_repository.simulated_tabular_backend import (
 )
 from syne_tune.stopping_criterion import StoppingCriterion
 from syne_tune.tuner import Tuner
+from syne_tune.experiments import load_experiment
 
 
 def run(
@@ -38,10 +39,24 @@ def run(
     print(f"Going to evaluate: {combinations}")
     exp_names = []
     for method, seed, benchmark_name in tqdm(combinations):
+        # if benchmark_name in ["tabrepo-RandomForest-2dplanes", "tabrepo-CatBoost-2dplanes",]:
+        #     # Skis the benchmark
+        #     continue
+
+        # These dont work as they have False and True as values which cannot be converted in json loads
+        # "LightGBM",
+        # "NeuralNetTorch",
+
+        if method in ["LLMKD"]:
+            # TODO: RUN LLMKD later get the baselines first
+            n_workers = 1
+
+
         np.random.seed(seed)
         benchmark = benchmark_definitions[benchmark_name]
 
         print(f"Starting experiment ({method}/{benchmark_name}/{seed})")
+
 
         backend = BlackboxRepositoryBackend(
             elapsed_time_attr=benchmark.elapsed_time_attr,
@@ -80,10 +95,7 @@ def run(
         )
 
         stop_criterion = StoppingCriterion(
-            max_wallclock_time=benchmark.max_wallclock_time,
-            max_num_evaluations=max_num_evaluations
-            if max_num_evaluations
-            else benchmark.max_num_evaluations,
+            max_num_evaluations=benchmark.max_num_evaluations,
         )
         tuner = Tuner(
             trial_backend=backend,
@@ -106,7 +118,47 @@ def run(
         )
         tuner.run()
         exp_names.append(tuner.name)
+        save_results(
+            tuner,
+            method=method,
+            metric=benchmark.metric,
+            seed=seed,
+            config_space=backend.blackbox.configuration_space,
+            benchmark_name=benchmark_name,
+        )
     return exp_names
+
+
+def save_results(tuner, method, metric, seed, config_space, benchmark_name):
+
+    df = load_experiment(tuner.name).results
+    configs = []
+    runtime_traj = []
+    F1 = []
+
+    for _, trial_df in df.groupby("trial_id"):
+        runtime_traj.append(float(trial_df.st_tuner_time.iloc[-1]))
+        F1.append(trial_df[metric].values[-1])
+        config = {}
+        for hyper in config_space.keys():
+            c = trial_df.iloc[0]["config_" + hyper]
+            config[hyper] = c
+        configs.append(config)
+    result = {
+        "configs": configs,
+        "runtime_traj": runtime_traj,
+        "F1": F1,
+        metric: F1, # Saving the same thing with its metric name
+    }
+    if method == "LLMKD":
+        method = "LLMKD-alpha-1.0"
+    results = pd.DataFrame(result)
+    dir = f"./results/{benchmark_name}/{method}/observed_fvals/"
+
+    os.makedirs(dir, exist_ok=True)
+    results.to_csv(f"{dir}/{method}_{metric}_{seed}.csv", index=False)
+
+
 
 
 if __name__ == "__main__":
@@ -144,6 +196,12 @@ if __name__ == "__main__":
         type=int,
         default=4,
     )
+    parser.add_argument(
+        "--max_num_evaluations",
+        help="number of evaluations to use when tuning.",
+        type=int,
+        default=None,
+    )
 
     args, _ = parser.parse_known_args()
     if args.run_all_seeds:
@@ -156,9 +214,13 @@ if __name__ == "__main__":
         if args.benchmark is not None
         else list(benchmark_definitions.keys())
     )
+    print(list(benchmark_definitions.keys()))
+    
     run(
         method_names=method_names,
         benchmark_names=benchmark_names,
         seeds=seeds,
         n_workers=args.n_workers,
+        max_num_evaluations=args.max_num_evaluations,
     )
+
