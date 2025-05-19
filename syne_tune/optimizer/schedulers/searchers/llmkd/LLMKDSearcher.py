@@ -206,12 +206,12 @@ class LLMKDSearcher(SingleObjectiveBaseSearcher):
             "input_cost_per_1000_tokens": 0.000150,
             "output_cost_per_1000_tokens": 0.000600,
             "initial_samples": 0, # This is set to 0, because we are using the initial samples we already get from syne tune
-            "candidates_per_request": 7, # TODO: [7, 10]
-            "max_candidates_per_trial": 7, # TODO: [7, 10]
+            "candidates_per_request": 5,
+            "max_candidates_per_trial": 5,
             "evaluations_per_request": 5,
             "max_evaluations_per_trial": 5,
             "max_context_configs": 110,
-            "max_requests_per_minute": 5000,
+            "max_reque`sts_per_minute": 5000,
             "max_tokens_per_minute": 4000000,
             "benchmark": "SyneTune",
             "benchmark_settings": {},

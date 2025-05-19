@@ -151,7 +151,7 @@ def save_results(tuner, method, metric, seed, config_space, benchmark_name):
         metric: F1, # Saving the same thing with its metric name
     }
     if method == "LLMKD":
-        method = "LLMKD-alpha-1.0"
+        method = "LLMKD-alpha-0.7"
     results = pd.DataFrame(result)
     dir = f"./results/{benchmark_name}/{method}/observed_fvals/"
 
