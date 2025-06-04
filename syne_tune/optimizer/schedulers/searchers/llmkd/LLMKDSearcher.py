@@ -18,10 +18,8 @@ from syne_tune.optimizer.schedulers.searchers.single_objective_searcher import (
 )
 from syne_tune.optimizer.schedulers.searchers.utils import make_hyperparameter_ranges
 from syne_tune.util import catchtime
-from mooLLM.mooLLM_builder import mooLLMBuilder
-from mooLLM.benchmarks.zdt.zdt import ZDT
+from mooLLM.builder import Builder
 from mooLLM.benchmarks.benchmark import BENCHMARK
-
 from mooLLM.utils.logger import LOGGING_CONFIG
 
 # logger = logging.getLogger(__name__)
@@ -54,8 +52,9 @@ class SyneTuneBenchmark(BENCHMARK):
         print(f"self.config_space: {self.config_space}")
         print(f"self.hp_ranges: {self.hp_ranges}")
 
-    def evaluate_point(self, point, **kwargs) -> Dict:
-        pass
+    def evaluate_point(self, point, **kwargs) -> tuple:
+        # Here we dont implement the evaluate_point as we get the evaluation from the syne tune package.
+        return None, None
 
     def generate_initialization(self, n_points: int, **kwargs) -> List[Dict]:
         random_samples = [ self._sample_random() for _ in range(n_points)]
@@ -114,11 +113,11 @@ class SyneTuneBenchmark(BENCHMARK):
                 
         return True
 
-    def save_progress(self, results: List[Dict], **kwargs):
-        """
-        We dont save the results as syn_tune does this for us.
-        """
-        pass
+    # def save_progress(self, results: List[Dict], **kwargs):
+    #     """
+    #     We dont save the results as syne_tune does this for us.
+    #     """
+    #     pass
 
 
 
@@ -172,56 +171,53 @@ class LLMKDSearcher(SingleObjectiveBaseSearcher):
 
         self.random_state = np.random.RandomState(random_seed)
         
-        # Convert config space to mooLLM format
-        self.mooLLM_boundary_box = self._create_boundary_box(config_space)
-        # if True:
-        #     1 / 0
-        self.response_format = self._create_response_format(config_space)
         self.config_queue = [] # If we get more than one config, we need to store them for syne tune and return them one by one
         
         range_parameter_keys, integer_parameter_keys, float_parameter_keys = self._create_range_parameter_keys(config_space)
         print(f"config space {config_space}")
         self.mooLLM_config = {
-            "model": "gemini-1-5-flash",
-            # "model": "gpt-4o-mini",
             "method_name": "mooLLM-KD",
+            "llm_settings": {
+                "model": "gpt-4o-mini", # Should be "model": "gemini-1-5-flash",
+                "input_cost_per_1000_tokens": 0.000150,
+                "output_cost_per_1000_tokens": 0.000600,
+                "max_requests_per_minute": 5000,
+                "max_tokens_per_minute": 4000000
+            },
             "optimization_method": "SpacePartitioning",
             "space_partitioning_settings": {
                 "top_k": 4,
-                "partitions_per_trial": 5,
+                "partitions_per_trial": 2,
                 "use_clustering": False,
-                "region_acquisition_strategy": "MOSS",
-                "partitioning_strategy": "kdtree", 
-                "alpha": 0.7, 
-                "scheduler_settings": { # TODO: This has to be flexible at some point.
-                    "scheduler": "EPSILON_DECAY_SCHEDULER",
-                    "decay_rate": 0.05,
-                    "initial_value": 1,
-                    "min_value": 0.01,
-                },
-                "boundary_box": self.mooLLM_boundary_box,
+                "region_acquisition_strategy": "ScoreRegion",
+                "partitioning_strategy": "kdtree",
+                "scheduler_settings": {
+                    "scheduler": "COSINE_ANNEALING_SCHEDULER",
+                    "alpha_min": 0.01,
+                    "alpha_max": 0.8,
+                    "restart_interval": 100
+                }
             },
             "n_trials": 1,
             "total_trials": 100,
-            "input_cost_per_1000_tokens": 0.000150,
-            "output_cost_per_1000_tokens": 0.000600,
             "initial_samples": 0, # This is set to 0, because we are using the initial samples we already get from syne tune
-            "candidates_per_request": 5,
-            "max_candidates_per_trial": 5,
+            "candidates_per_request": 2, # TODO: [10]
+            "max_candidates_per_trial": 2, # TODO: [10]
             "evaluations_per_request": 5,
             "max_evaluations_per_trial": 5,
             "max_context_configs": 110,
-            "max_reque`sts_per_minute": 5000,
+            "max_requests_per_minute": 5000,
             "max_tokens_per_minute": 4000000,
             "benchmark": "SyneTune",
             "benchmark_settings": {},
             "range_parameter_keys": range_parameter_keys,
             "integer_parameter_keys": integer_parameter_keys,
             "float_parameter_keys": float_parameter_keys,
+            "parameter_constraints": self._create_constraints(config_space),
             "warmstarter": "RANDOM_WARMSTARTER", # We actually do not use any warmstarting see initial samples setting
-            "candidate_sampler": "mooLLM_SAMPLER",
+            "candidate_sampler": "LLM_SAMPLER",
             "acquisition_function": "FunctionValueACQ",
-            "surrogate_model": "mooLLM_SUR_BATCH",
+            "surrogate_model": "LLM_SUR_BATCH",
             "shuffle_icl_columns": False,
             "shuffle_icl_rows": True, 
             "use_few_shot_examples": False,
@@ -231,42 +227,18 @@ class LLMKDSearcher(SingleObjectiveBaseSearcher):
             "surrogate_model_prompt_template": "./syne_tune/optimizer/schedulers/searchers/llmkd/prompt_templates_kd/surrogate_model.txt",    # TODO: This will not work if the path is different   
             "metrics": self.metrics,
             "metrics_targets": [metric_targets],
-            "prompt": {
-                "problem_description": "",
-                "constraints": self._create_constraints(config_space),
-                "metrics": self._create_metrics_description(self.metrics, [metric_targets]),
-                "icl_examples_template": f"Configuration: $configuration \n{' '.join([f'{m}: ${m},' for m in self.metrics])}",
-                "icl_example_template": self.response_format,
-                "warmstarting_response_format": self.response_format,
-                "candidate_sampler_response_format": self.response_format,
-                "surrogate_model_response_format": self._create_metrics_response_format(),
-            },
         }
 
         self.benchmark.range_parameter_keys = self.mooLLM_config.get("range_parameter_keys", [])
-        mooLLM_builder = mooLLMBuilder(config=self.mooLLM_config, benchmark=self.benchmark)
-        self.mooLLM = mooLLM_builder.build()
+        builder = Builder(config=self.mooLLM_config, benchmark=self.benchmark)
+        self.mooLLM = builder.build()
 
         # Fix for points_to_evaluate being empty
         if points_to_evaluate is None:
             self.points_to_evaluate = self.benchmark.generate_initialization(
                 n_points=self.num_init_random_draws
             )
-    
-    def _create_metrics_description(self, metrics: List[str], metrics_targets: List[str]) -> str:
-        """
-        Create a metrics description string for mooLLM.
-        
-        :param metrics: List of metrics
-        :return: A string describing the metrics
-        """
-        m_strings = []
-        for metric, target in zip(metrics, metrics_targets):
-            m_strings.append(f"{metric} (lower is better)")
-            # if target == "min": # TODO: For now keep it like this and change it later
-            # elif target == "max":
-            #     m_strings.append(f"{metric} (higher is better)")
-        return ", ".join([m_string for m_string in m_strings])
+
 
     def _create_range_parameter_keys(self, config_space: Dict) -> List[str]:
         """
@@ -306,49 +278,7 @@ class LLMKDSearcher(SingleObjectiveBaseSearcher):
         
         return config
     
-    def _create_boundary_box(self, config_space: Dict) -> Dict[str, List[float]]:
-        """
-        Create a boundary box for the configuration space suitable for mooLLM.
-        
-        :param config_space: The configuration space
-        :return: A dictionary mapping parameter names to [min, max] ranges
-        """
-        boundary_box = {}
-        for i, (name, domain) in enumerate(config_space.items()):
-            if isinstance(domain, Domain):
-                print(f"domain: {type(domain)}")
-                if isinstance(domain, FiniteRange):
-                    # If categorical [tanh, relu] -> [tanh, relu] or [0.03, 0.05, 0.07] -> [0.03, 0.05, 0.07] 
-                    boundary_box[name] = domain.values
-                elif isinstance(domain, Categorical):
-                    categories = list(domain.categories)
-                    boundary_box[name] = categories
-                else:
-                    lower, upper = domain.lower, domain.upper
-                    boundary_box[name] = [float(lower), float(upper)]
-                    
-            else:
-                # This should never happen
-                # For fixed values, use a fixed range
-                boundary_box[name] = [0.0, 1.0]
-        
-        return boundary_box
-    
-    def _create_response_format(self, config_space: Dict) -> str:
-        """
-        Create a response format template for mooLLM based on the configuration space.
-        
-        :param config_space: The configuration space
-        :return: A JSON template string
-        """
-        template_parts = ['{']
-        for i, name in enumerate(config_space.keys()):
-            template_parts.append(f'"{name}": ${name}')
-            if i < len(config_space) - 1:
-                template_parts.append(', ')
-        template_parts.append('}')
-        
-        return ''.join(template_parts)
+
     
     def _create_constraints(self, config_space: Dict) -> Dict:
         """
@@ -373,22 +303,6 @@ class LLMKDSearcher(SingleObjectiveBaseSearcher):
             else:
                 constraints[name] = domain
         return constraints
-    
-    def _create_metrics_response_format(self) -> str:
-        """
-        Create a metrics response format for mooLLM.
-        
-        :return: A JSON template string for metrics
-        """
-        template_parts = ['{']
-        for i, metric in enumerate(self.metrics):
-            template_parts.append(f'"{metric}": ?')
-            if i < len(self.metrics) - 1:
-                template_parts.append(', ')
-        template_parts.append('}')
-        
-        return ''.join(template_parts)
-
     
 
     def should_update(self) -> bool:
@@ -417,17 +331,7 @@ class LLMKDSearcher(SingleObjectiveBaseSearcher):
         return X, z
 
     def fit_model(self):
-        X, z = self.make_input_target()
-        self.surrogate_model = QuantileRegressionSurrogateModel(
-            config_space=self.config_space,
-            max_fit_samples=self.max_fit_samples,
-            random_state=self.random_state,
-            mode="min",
-            min_samples_to_conformalize=32,
-            valid_fraction=0.1,
-            **self.surrogate_kwargs,
-        )
-        self.surrogate_model.fit(df_features=X, y=z)
+        pass
 
     def on_trial_complete(
         self,
@@ -437,7 +341,6 @@ class LLMKDSearcher(SingleObjectiveBaseSearcher):
         resource_level: int = None,
     ):
         print(f"on trial complete metric: {metric}")
-        #metric = -metric
         metric = [-m for m in metric]
         self.trial_configs[trial_id] = config
         self.trial_results[trial_id].append(metric)
@@ -446,6 +349,7 @@ class LLMKDSearcher(SingleObjectiveBaseSearcher):
         candidate_eval = {}
         for i, metric_name in enumerate(metrics_list):
             candidate_eval[metric_name] = metric[i]
+        # Here we have to manually update the statistics of the mooLLM right now.
         self.mooLLM.update_statistics(sel_candidate_point=config, sel_candidate_eval=candidate_eval)
 
     def on_trial_result(

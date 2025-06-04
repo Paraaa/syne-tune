@@ -1,0 +1,451 @@
+[2025-06-04 11:06:27,192] [Builder] [DEBUG]: Setting up builder with configuration: {'method_name': 'mooLLM-KD', 'llm_settings': {'model': 'gpt-4o-mini', 'input_cost_per_1000_tokens': 0.00015, 'output_cost_per_1000_tokens': 0.0006, 'max_requests_per_minute': 5000, 'max_tokens_per_minute': 4000000}, 'optimization_method': 'SpacePartitioning', 'space_partitioning_settings': {'top_k': 4, 'partitions_per_trial': 2, 'use_clustering': False, 'region_acquisition_strategy': 'ScoreRegion', 'partitioning_strategy': 'kdtree', 'scheduler_settings': {'scheduler': 'COSINE_ANNEALING_SCHEDULER', 'alpha_min': 0.01, 'alpha_max': 0.8, 'restart_interval': 100}}, 'n_trials': 1, 'total_trials': 100, 'initial_samples': 0, 'candidates_per_request': 2, 'max_candidates_per_trial': 2, 'evaluations_per_request': 5, 'max_evaluations_per_trial': 5, 'max_context_configs': 110, 'max_requests_per_minute': 5000, 'max_tokens_per_minute': 4000000, 'benchmark': 'SyneTune', 'benchmark_settings': {}, 'range_parameter_keys': [], 'integer_parameter_keys': [], 'float_parameter_keys': [], 'parameter_constraints': {'hp_activation_fn_1': ['tanh', 'relu'], 'hp_activation_fn_2': ['tanh', 'relu'], 'hp_batch_size': [8.0, 64.0], 'hp_dropout_1': [0.0, 0.6], 'hp_dropout_2': [0.0, 0.6], 'hp_init_lr': [0.0005, 0.001, 0.005, 0.01, 0.05, 0.1], 'hp_lr_schedule': ['cosine', 'const'], 'hp_n_units_1': [16.0, 512.0], 'hp_n_units_2': [16.0, 512.0]}, 'warmstarter': 'RANDOM_WARMSTARTER', 'candidate_sampler': 'LLM_SAMPLER', 'acquisition_function': 'FunctionValueACQ', 'surrogate_model': 'LLM_SUR_BATCH', 'shuffle_icl_columns': False, 'shuffle_icl_rows': True, 'use_few_shot_examples': False, 'context_limit_strategy': 'LastN', 'warmstarting_prompt_template': './syne_tune/optimizer/schedulers/searchers/llmkd/prompt_templates_kd/warmstarting.txt', 'candidate_sampler_prompt_template': './syne_tune/optimizer/schedulers/searchers/llmkd/prompt_templates_kd/candidate_sampler.txt', 'surrogate_model_prompt_template': './syne_tune/optimizer/schedulers/searchers/llmkd/prompt_templates_kd/surrogate_model.txt', 'metrics': ['F1'], 'metrics_targets': ['min']}
+[2025-06-04 11:06:27,192] [Builder] [DEBUG]: Template dir: ./syne_tune/optimizer/schedulers/searchers/llmkd/prompt_templates_kd/surrogate_model.txt
+[2025-06-04 11:06:27,192] [Builder] [DEBUG]: Setting up builder complete
+[2025-06-04 11:06:27,192] [Builder] [DEBUG]: Optimization method: SpacePartitioning
+[2025-06-04 11:06:27,192] [RANDOM_WARMSTARTER] [DEBUG]: Initial samples:
+[2025-06-04 11:06:27,192] [SpacePartitioningMOOLLM] [DEBUG]: Initialized mooLLM with configs: []
+[2025-06-04 11:06:27,192] [SpacePartitioningMOOLLM] [DEBUG]: Initialized mooLLM with fvals: []
+[2025-06-04 11:06:27,201] [SpacePartitioningMOOLLM] [DEBUG]: Selected point: {'hp_activation_fn_1': 'tanh', 'hp_activation_fn_2': 'relu', 'hp_batch_size': 16, 'hp_dropout_1': 0.3, 'hp_dropout_2': 0.3, 'hp_init_lr': 0.1, 'hp_lr_schedule': 'const', 'hp_n_units_1': 32, 'hp_n_units_2': 64}
+[2025-06-04 11:06:27,201] [STATISTICS] [DEBUG]: Updated mooLLM with configs: [{'hp_activation_fn_1': 'tanh', 'hp_activation_fn_2': 'relu', 'hp_batch_size': 16, 'hp_dropout_1': 0.3, 'hp_dropout_2': 0.3, 'hp_init_lr': 0.1, 'hp_lr_schedule': 'const', 'hp_n_units_1': 32, 'hp_n_units_2': 64}]
+[2025-06-04 11:06:27,201] [STATISTICS] [DEBUG]: Updated mooLLM with fvals: [{'F1': -0.9790642857551575}]
+[2025-06-04 11:06:27,211] [BENCHMARK] [DEBUG]: Saving progress {'observed_configs':   hp_activation_fn_1 hp_activation_fn_2  hp_batch_size  hp_dropout_1  hp_dropout_2  hp_init_lr hp_lr_schedule  hp_n_units_1  hp_n_units_2
+0               tanh               relu             16           0.3           0.3         0.1          const            32            64, 'observed_fvals':          F1
+0 -0.979064, 'error_rate_per_trials': Empty DataFrame
+Columns: []
+Index: [], 'time_taken_per_trials': Empty DataFrame
+Columns: []
+Index: [], 'surrogate_model_accuracy_per_trial':    surrogate_model_prediction         benchmark_evaluation
+0                           0  {'F1': -0.9790642857551575}, 'cost_per_request': Empty DataFrame
+Columns: []
+Index: [], 'token_usage_per_request': Empty DataFrame
+Columns: []
+Index: [], 'all_configs_per_trial': Empty DataFrame
+Columns: []
+Index: [], 'all_hv_contributions_per_trial': Empty DataFrame
+Columns: []
+Index: [], 'observed_configs_per_tot_trial': Empty DataFrame
+Columns: []
+Index: [], 'observed_fvals_per_tot_trial': Empty DataFrame
+Columns: []
+Index: []}
+[2025-06-04 11:06:27,212] [BENCHMARK] [DEBUG]: Writing observed_configs to ./results/SyneTune/mooLLM-KD/observed_configs//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,212] [BENCHMARK] [DEBUG]: Writing observed_fvals to ./results/SyneTune/mooLLM-KD/observed_fvals//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,212] [BENCHMARK] [DEBUG]: Writing error_rate_per_trials to ./results/SyneTune/mooLLM-KD/error_rate_per_trials//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,212] [BENCHMARK] [DEBUG]: Writing time_taken_per_trials to ./results/SyneTune/mooLLM-KD/time_taken_per_trials//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,213] [BENCHMARK] [DEBUG]: Writing surrogate_model_accuracy_per_trial to ./results/SyneTune/mooLLM-KD/surrogate_model_accuracy_per_trial//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,213] [BENCHMARK] [DEBUG]: Writing cost_per_request to ./results/SyneTune/mooLLM-KD/cost_per_request//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,213] [BENCHMARK] [DEBUG]: Writing token_usage_per_request to ./results/SyneTune/mooLLM-KD/token_usage_per_request//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,213] [BENCHMARK] [DEBUG]: Writing all_configs_per_trial to ./results/SyneTune/mooLLM-KD/all_configs_per_trial//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,213] [BENCHMARK] [DEBUG]: Writing all_hv_contributions_per_trial to ./results/SyneTune/mooLLM-KD/all_hv_contributions_per_trial//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,214] [BENCHMARK] [DEBUG]: Writing observed_configs_per_tot_trial to ./results/SyneTune/mooLLM-KD/observed_configs_per_tot_trial//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,214] [BENCHMARK] [DEBUG]: Writing observed_fvals_per_tot_trial to ./results/SyneTune/mooLLM-KD/observed_fvals_per_tot_trial//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,221] [SpacePartitioningMOOLLM] [DEBUG]: Selected point: {'hp_activation_fn_1': 'relu', 'hp_activation_fn_2': 'relu', 'hp_batch_size': 16, 'hp_dropout_1': 0.3, 'hp_dropout_2': 0.0, 'hp_init_lr': 0.005, 'hp_lr_schedule': 'const', 'hp_n_units_1': 64, 'hp_n_units_2': 32}
+[2025-06-04 11:06:27,221] [STATISTICS] [DEBUG]: Updated mooLLM with configs: [{'hp_activation_fn_1': 'tanh', 'hp_activation_fn_2': 'relu', 'hp_batch_size': 16, 'hp_dropout_1': 0.3, 'hp_dropout_2': 0.3, 'hp_init_lr': 0.1, 'hp_lr_schedule': 'const', 'hp_n_units_1': 32, 'hp_n_units_2': 64}, {'hp_activation_fn_1': 'relu', 'hp_activation_fn_2': 'relu', 'hp_batch_size': 16, 'hp_dropout_1': 0.3, 'hp_dropout_2': 0.0, 'hp_init_lr': 0.005, 'hp_lr_schedule': 'const', 'hp_n_units_1': 64, 'hp_n_units_2': 32}]
+[2025-06-04 11:06:27,221] [STATISTICS] [DEBUG]: Updated mooLLM with fvals: [{'F1': -0.9790642857551575}, {'F1': -0.05552946403622627}]
+[2025-06-04 11:06:27,229] [BENCHMARK] [DEBUG]: Saving progress {'observed_configs':   hp_activation_fn_1 hp_activation_fn_2  hp_batch_size  hp_dropout_1  hp_dropout_2  hp_init_lr hp_lr_schedule  hp_n_units_1  hp_n_units_2
+0               tanh               relu             16           0.3           0.3       0.100          const            32            64
+1               relu               relu             16           0.3           0.0       0.005          const            64            32, 'observed_fvals':          F1
+0 -0.979064
+1 -0.055529, 'error_rate_per_trials': Empty DataFrame
+Columns: []
+Index: [], 'time_taken_per_trials': Empty DataFrame
+Columns: []
+Index: [], 'surrogate_model_accuracy_per_trial':    surrogate_model_prediction          benchmark_evaluation
+0                           0   {'F1': -0.9790642857551575}
+1                           0  {'F1': -0.05552946403622627}, 'cost_per_request': Empty DataFrame
+Columns: []
+Index: [], 'token_usage_per_request': Empty DataFrame
+Columns: []
+Index: [], 'all_configs_per_trial': Empty DataFrame
+Columns: []
+Index: [], 'all_hv_contributions_per_trial': Empty DataFrame
+Columns: []
+Index: [], 'observed_configs_per_tot_trial': Empty DataFrame
+Columns: []
+Index: [], 'observed_fvals_per_tot_trial': Empty DataFrame
+Columns: []
+Index: []}
+[2025-06-04 11:06:27,230] [BENCHMARK] [DEBUG]: Writing observed_configs to ./results/SyneTune/mooLLM-KD/observed_configs//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,230] [BENCHMARK] [DEBUG]: Writing observed_fvals to ./results/SyneTune/mooLLM-KD/observed_fvals//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,230] [BENCHMARK] [DEBUG]: Writing error_rate_per_trials to ./results/SyneTune/mooLLM-KD/error_rate_per_trials//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,230] [BENCHMARK] [DEBUG]: Writing time_taken_per_trials to ./results/SyneTune/mooLLM-KD/time_taken_per_trials//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,231] [BENCHMARK] [DEBUG]: Writing surrogate_model_accuracy_per_trial to ./results/SyneTune/mooLLM-KD/surrogate_model_accuracy_per_trial//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,231] [BENCHMARK] [DEBUG]: Writing cost_per_request to ./results/SyneTune/mooLLM-KD/cost_per_request//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,231] [BENCHMARK] [DEBUG]: Writing token_usage_per_request to ./results/SyneTune/mooLLM-KD/token_usage_per_request//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,231] [BENCHMARK] [DEBUG]: Writing all_configs_per_trial to ./results/SyneTune/mooLLM-KD/all_configs_per_trial//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,231] [BENCHMARK] [DEBUG]: Writing all_hv_contributions_per_trial to ./results/SyneTune/mooLLM-KD/all_hv_contributions_per_trial//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,232] [BENCHMARK] [DEBUG]: Writing observed_configs_per_tot_trial to ./results/SyneTune/mooLLM-KD/observed_configs_per_tot_trial//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,232] [BENCHMARK] [DEBUG]: Writing observed_fvals_per_tot_trial to ./results/SyneTune/mooLLM-KD/observed_fvals_per_tot_trial//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,239] [SpacePartitioningMOOLLM] [DEBUG]: Selected point: {'hp_activation_fn_1': 'tanh', 'hp_activation_fn_2': 'tanh', 'hp_batch_size': 32, 'hp_dropout_1': 0.6, 'hp_dropout_2': 0.6, 'hp_init_lr': 0.005, 'hp_lr_schedule': 'const', 'hp_n_units_1': 128, 'hp_n_units_2': 64}
+[2025-06-04 11:06:27,239] [STATISTICS] [DEBUG]: Updated mooLLM with configs: [{'hp_activation_fn_1': 'tanh', 'hp_activation_fn_2': 'relu', 'hp_batch_size': 16, 'hp_dropout_1': 0.3, 'hp_dropout_2': 0.3, 'hp_init_lr': 0.1, 'hp_lr_schedule': 'const', 'hp_n_units_1': 32, 'hp_n_units_2': 64}, {'hp_activation_fn_1': 'relu', 'hp_activation_fn_2': 'relu', 'hp_batch_size': 16, 'hp_dropout_1': 0.3, 'hp_dropout_2': 0.0, 'hp_init_lr': 0.005, 'hp_lr_schedule': 'const', 'hp_n_units_1': 64, 'hp_n_units_2': 32}, {'hp_activation_fn_1': 'tanh', 'hp_activation_fn_2': 'tanh', 'hp_batch_size': 32, 'hp_dropout_1': 0.6, 'hp_dropout_2': 0.6, 'hp_init_lr': 0.005, 'hp_lr_schedule': 'const', 'hp_n_units_1': 128, 'hp_n_units_2': 64}]
+[2025-06-04 11:06:27,239] [STATISTICS] [DEBUG]: Updated mooLLM with fvals: [{'F1': -0.9790642857551575}, {'F1': -0.05552946403622627}, {'F1': -0.18488407135009766}]
+[2025-06-04 11:06:27,247] [BENCHMARK] [DEBUG]: Saving progress {'observed_configs':   hp_activation_fn_1 hp_activation_fn_2  hp_batch_size  hp_dropout_1  hp_dropout_2  hp_init_lr hp_lr_schedule  hp_n_units_1  hp_n_units_2
+0               tanh               relu             16           0.3           0.3       0.100          const            32            64
+1               relu               relu             16           0.3           0.0       0.005          const            64            32
+2               tanh               tanh             32           0.6           0.6       0.005          const           128            64, 'observed_fvals':          F1
+0 -0.979064
+1 -0.055529
+2 -0.184884, 'error_rate_per_trials': Empty DataFrame
+Columns: []
+Index: [], 'time_taken_per_trials': Empty DataFrame
+Columns: []
+Index: [], 'surrogate_model_accuracy_per_trial':    surrogate_model_prediction          benchmark_evaluation
+0                           0   {'F1': -0.9790642857551575}
+1                           0  {'F1': -0.05552946403622627}
+2                           0  {'F1': -0.18488407135009766}, 'cost_per_request': Empty DataFrame
+Columns: []
+Index: [], 'token_usage_per_request': Empty DataFrame
+Columns: []
+Index: [], 'all_configs_per_trial': Empty DataFrame
+Columns: []
+Index: [], 'all_hv_contributions_per_trial': Empty DataFrame
+Columns: []
+Index: [], 'observed_configs_per_tot_trial': Empty DataFrame
+Columns: []
+Index: [], 'observed_fvals_per_tot_trial': Empty DataFrame
+Columns: []
+Index: []}
+[2025-06-04 11:06:27,656] [BENCHMARK] [DEBUG]: Writing observed_configs to ./results/SyneTune/mooLLM-KD/observed_configs//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,656] [BENCHMARK] [DEBUG]: Writing observed_fvals to ./results/SyneTune/mooLLM-KD/observed_fvals//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,656] [BENCHMARK] [DEBUG]: Writing error_rate_per_trials to ./results/SyneTune/mooLLM-KD/error_rate_per_trials//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,656] [BENCHMARK] [DEBUG]: Writing time_taken_per_trials to ./results/SyneTune/mooLLM-KD/time_taken_per_trials//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,657] [BENCHMARK] [DEBUG]: Writing surrogate_model_accuracy_per_trial to ./results/SyneTune/mooLLM-KD/surrogate_model_accuracy_per_trial//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,657] [BENCHMARK] [DEBUG]: Writing cost_per_request to ./results/SyneTune/mooLLM-KD/cost_per_request//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,657] [BENCHMARK] [DEBUG]: Writing token_usage_per_request to ./results/SyneTune/mooLLM-KD/token_usage_per_request//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,657] [BENCHMARK] [DEBUG]: Writing all_configs_per_trial to ./results/SyneTune/mooLLM-KD/all_configs_per_trial//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,657] [BENCHMARK] [DEBUG]: Writing all_hv_contributions_per_trial to ./results/SyneTune/mooLLM-KD/all_hv_contributions_per_trial//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,657] [BENCHMARK] [DEBUG]: Writing observed_configs_per_tot_trial to ./results/SyneTune/mooLLM-KD/observed_configs_per_tot_trial//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,658] [BENCHMARK] [DEBUG]: Writing observed_fvals_per_tot_trial to ./results/SyneTune/mooLLM-KD/observed_fvals_per_tot_trial//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,666] [SpacePartitioningMOOLLM] [DEBUG]: Selected point: {'hp_activation_fn_1': 'relu', 'hp_activation_fn_2': 'relu', 'hp_batch_size': 16, 'hp_dropout_1': 0.3, 'hp_dropout_2': 0.6, 'hp_init_lr': 0.05, 'hp_lr_schedule': 'cosine', 'hp_n_units_1': 128, 'hp_n_units_2': 32}
+[2025-06-04 11:06:27,666] [STATISTICS] [DEBUG]: Updated mooLLM with configs: [{'hp_activation_fn_1': 'tanh', 'hp_activation_fn_2': 'relu', 'hp_batch_size': 16, 'hp_dropout_1': 0.3, 'hp_dropout_2': 0.3, 'hp_init_lr': 0.1, 'hp_lr_schedule': 'const', 'hp_n_units_1': 32, 'hp_n_units_2': 64}, {'hp_activation_fn_1': 'relu', 'hp_activation_fn_2': 'relu', 'hp_batch_size': 16, 'hp_dropout_1': 0.3, 'hp_dropout_2': 0.0, 'hp_init_lr': 0.005, 'hp_lr_schedule': 'const', 'hp_n_units_1': 64, 'hp_n_units_2': 32}, {'hp_activation_fn_1': 'tanh', 'hp_activation_fn_2': 'tanh', 'hp_batch_size': 32, 'hp_dropout_1': 0.6, 'hp_dropout_2': 0.6, 'hp_init_lr': 0.005, 'hp_lr_schedule': 'const', 'hp_n_units_1': 128, 'hp_n_units_2': 64}, {'hp_activation_fn_1': 'relu', 'hp_activation_fn_2': 'relu', 'hp_batch_size': 16, 'hp_dropout_1': 0.3, 'hp_dropout_2': 0.6, 'hp_init_lr': 0.05, 'hp_lr_schedule': 'cosine', 'hp_n_units_1': 128, 'hp_n_units_2': 32}]
+[2025-06-04 11:06:27,666] [STATISTICS] [DEBUG]: Updated mooLLM with fvals: [{'F1': -0.9790642857551575}, {'F1': -0.05552946403622627}, {'F1': -0.18488407135009766}, {'F1': -0.9789599776268005}]
+[2025-06-04 11:06:27,674] [BENCHMARK] [DEBUG]: Saving progress {'observed_configs':   hp_activation_fn_1 hp_activation_fn_2  hp_batch_size  hp_dropout_1  hp_dropout_2  hp_init_lr hp_lr_schedule  hp_n_units_1  hp_n_units_2
+0               tanh               relu             16           0.3           0.3       0.100          const            32            64
+1               relu               relu             16           0.3           0.0       0.005          const            64            32
+2               tanh               tanh             32           0.6           0.6       0.005          const           128            64
+3               relu               relu             16           0.3           0.6       0.050         cosine           128            32, 'observed_fvals':          F1
+0 -0.979064
+1 -0.055529
+2 -0.184884
+3 -0.978960, 'error_rate_per_trials': Empty DataFrame
+Columns: []
+Index: [], 'time_taken_per_trials': Empty DataFrame
+Columns: []
+Index: [], 'surrogate_model_accuracy_per_trial':    surrogate_model_prediction          benchmark_evaluation
+0                           0   {'F1': -0.9790642857551575}
+1                           0  {'F1': -0.05552946403622627}
+2                           0  {'F1': -0.18488407135009766}
+3                           0   {'F1': -0.9789599776268005}, 'cost_per_request': Empty DataFrame
+Columns: []
+Index: [], 'token_usage_per_request': Empty DataFrame
+Columns: []
+Index: [], 'all_configs_per_trial': Empty DataFrame
+Columns: []
+Index: [], 'all_hv_contributions_per_trial': Empty DataFrame
+Columns: []
+Index: [], 'observed_configs_per_tot_trial': Empty DataFrame
+Columns: []
+Index: [], 'observed_fvals_per_tot_trial': Empty DataFrame
+Columns: []
+Index: []}
+[2025-06-04 11:06:27,675] [BENCHMARK] [DEBUG]: Writing observed_configs to ./results/SyneTune/mooLLM-KD/observed_configs//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,675] [BENCHMARK] [DEBUG]: Writing observed_fvals to ./results/SyneTune/mooLLM-KD/observed_fvals//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,675] [BENCHMARK] [DEBUG]: Writing error_rate_per_trials to ./results/SyneTune/mooLLM-KD/error_rate_per_trials//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,675] [BENCHMARK] [DEBUG]: Writing time_taken_per_trials to ./results/SyneTune/mooLLM-KD/time_taken_per_trials//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,675] [BENCHMARK] [DEBUG]: Writing surrogate_model_accuracy_per_trial to ./results/SyneTune/mooLLM-KD/surrogate_model_accuracy_per_trial//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,676] [BENCHMARK] [DEBUG]: Writing cost_per_request to ./results/SyneTune/mooLLM-KD/cost_per_request//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,676] [BENCHMARK] [DEBUG]: Writing token_usage_per_request to ./results/SyneTune/mooLLM-KD/token_usage_per_request//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,676] [BENCHMARK] [DEBUG]: Writing all_configs_per_trial to ./results/SyneTune/mooLLM-KD/all_configs_per_trial//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,676] [BENCHMARK] [DEBUG]: Writing all_hv_contributions_per_trial to ./results/SyneTune/mooLLM-KD/all_hv_contributions_per_trial//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,676] [BENCHMARK] [DEBUG]: Writing observed_configs_per_tot_trial to ./results/SyneTune/mooLLM-KD/observed_configs_per_tot_trial//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,677] [BENCHMARK] [DEBUG]: Writing observed_fvals_per_tot_trial to ./results/SyneTune/mooLLM-KD/observed_fvals_per_tot_trial//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,684] [SpacePartitioningMOOLLM] [DEBUG]: Selected point: {'hp_activation_fn_1': 'relu', 'hp_activation_fn_2': 'tanh', 'hp_batch_size': 16, 'hp_dropout_1': 0.3, 'hp_dropout_2': 0.0, 'hp_init_lr': 0.001, 'hp_lr_schedule': 'cosine', 'hp_n_units_1': 64, 'hp_n_units_2': 16}
+[2025-06-04 11:06:27,684] [STATISTICS] [DEBUG]: Updated mooLLM with configs: [{'hp_activation_fn_1': 'tanh', 'hp_activation_fn_2': 'relu', 'hp_batch_size': 16, 'hp_dropout_1': 0.3, 'hp_dropout_2': 0.3, 'hp_init_lr': 0.1, 'hp_lr_schedule': 'const', 'hp_n_units_1': 32, 'hp_n_units_2': 64}, {'hp_activation_fn_1': 'relu', 'hp_activation_fn_2': 'relu', 'hp_batch_size': 16, 'hp_dropout_1': 0.3, 'hp_dropout_2': 0.0, 'hp_init_lr': 0.005, 'hp_lr_schedule': 'const', 'hp_n_units_1': 64, 'hp_n_units_2': 32}, {'hp_activation_fn_1': 'tanh', 'hp_activation_fn_2': 'tanh', 'hp_batch_size': 32, 'hp_dropout_1': 0.6, 'hp_dropout_2': 0.6, 'hp_init_lr': 0.005, 'hp_lr_schedule': 'const', 'hp_n_units_1': 128, 'hp_n_units_2': 64}, {'hp_activation_fn_1': 'relu', 'hp_activation_fn_2': 'relu', 'hp_batch_size': 16, 'hp_dropout_1': 0.3, 'hp_dropout_2': 0.6, 'hp_init_lr': 0.05, 'hp_lr_schedule': 'cosine', 'hp_n_units_1': 128, 'hp_n_units_2': 32}, {'hp_activation_fn_1': 'relu', 'hp_activation_fn_2': 'tanh', 'hp_batch_size': 16, 'hp_dropout_1': 0.3, 'hp_dropout_2': 0.0, 'hp_init_lr': 0.001, 'hp_lr_schedule': 'cosine', 'hp_n_units_1': 64, 'hp_n_units_2': 16}]
+[2025-06-04 11:06:27,684] [STATISTICS] [DEBUG]: Updated mooLLM with fvals: [{'F1': -0.9790642857551575}, {'F1': -0.05552946403622627}, {'F1': -0.18488407135009766}, {'F1': -0.9789599776268005}, {'F1': -0.06685396283864975}]
+[2025-06-04 11:06:27,693] [BENCHMARK] [DEBUG]: Saving progress {'observed_configs':   hp_activation_fn_1 hp_activation_fn_2  hp_batch_size  hp_dropout_1  hp_dropout_2  hp_init_lr hp_lr_schedule  hp_n_units_1  hp_n_units_2
+0               tanh               relu             16           0.3           0.3       0.100          const            32            64
+1               relu               relu             16           0.3           0.0       0.005          const            64            32
+2               tanh               tanh             32           0.6           0.6       0.005          const           128            64
+3               relu               relu             16           0.3           0.6       0.050         cosine           128            32
+4               relu               tanh             16           0.3           0.0       0.001         cosine            64            16, 'observed_fvals':          F1
+0 -0.979064
+1 -0.055529
+2 -0.184884
+3 -0.978960
+4 -0.066854, 'error_rate_per_trials': Empty DataFrame
+Columns: []
+Index: [], 'time_taken_per_trials': Empty DataFrame
+Columns: []
+Index: [], 'surrogate_model_accuracy_per_trial':    surrogate_model_prediction          benchmark_evaluation
+0                           0   {'F1': -0.9790642857551575}
+1                           0  {'F1': -0.05552946403622627}
+2                           0  {'F1': -0.18488407135009766}
+3                           0   {'F1': -0.9789599776268005}
+4                           0  {'F1': -0.06685396283864975}, 'cost_per_request': Empty DataFrame
+Columns: []
+Index: [], 'token_usage_per_request': Empty DataFrame
+Columns: []
+Index: [], 'all_configs_per_trial': Empty DataFrame
+Columns: []
+Index: [], 'all_hv_contributions_per_trial': Empty DataFrame
+Columns: []
+Index: [], 'observed_configs_per_tot_trial': Empty DataFrame
+Columns: []
+Index: [], 'observed_fvals_per_tot_trial': Empty DataFrame
+Columns: []
+Index: []}
+[2025-06-04 11:06:27,701] [BENCHMARK] [DEBUG]: Writing observed_configs to ./results/SyneTune/mooLLM-KD/observed_configs//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,702] [BENCHMARK] [DEBUG]: Writing observed_fvals to ./results/SyneTune/mooLLM-KD/observed_fvals//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,702] [BENCHMARK] [DEBUG]: Writing error_rate_per_trials to ./results/SyneTune/mooLLM-KD/error_rate_per_trials//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,702] [BENCHMARK] [DEBUG]: Writing time_taken_per_trials to ./results/SyneTune/mooLLM-KD/time_taken_per_trials//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,702] [BENCHMARK] [DEBUG]: Writing surrogate_model_accuracy_per_trial to ./results/SyneTune/mooLLM-KD/surrogate_model_accuracy_per_trial//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,703] [BENCHMARK] [DEBUG]: Writing cost_per_request to ./results/SyneTune/mooLLM-KD/cost_per_request//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,703] [BENCHMARK] [DEBUG]: Writing token_usage_per_request to ./results/SyneTune/mooLLM-KD/token_usage_per_request//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,703] [BENCHMARK] [DEBUG]: Writing all_configs_per_trial to ./results/SyneTune/mooLLM-KD/all_configs_per_trial//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,703] [BENCHMARK] [DEBUG]: Writing all_hv_contributions_per_trial to ./results/SyneTune/mooLLM-KD/all_hv_contributions_per_trial//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,703] [BENCHMARK] [DEBUG]: Writing observed_configs_per_tot_trial to ./results/SyneTune/mooLLM-KD/observed_configs_per_tot_trial//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,703] [BENCHMARK] [DEBUG]: Writing observed_fvals_per_tot_trial to ./results/SyneTune/mooLLM-KD/observed_fvals_per_tot_trial//gemini-1-5-flash_None_None.csv
+[2025-06-04 11:06:27,703] [SpacePartitioningMOOLLM] [INFO]: Starting trial: 0
+[2025-06-04 11:06:27,704] [SpacePartitioningMOOLLM] [DEBUG]: Using ICL statistics for regions
+[2025-06-04 11:06:27,704] [KDTreePartitioning] [DEBUG]: Starting KD-tree partitioning
+[2025-06-04 11:06:27,704] [KDTreePartitioning] [DEBUG]: Using 9 dimensions for KD-tree
+[2025-06-04 11:06:27,704] [KDTreePartitioning] [DEBUG]: Building KD-tree with indexed points array shape: (5, 9)
+[2025-06-04 11:06:27,704] [KDTreePartitioning] [DEBUG]: Adaptive leaf size: 4
+[2025-06-04 11:06:27,704] [KDTreePartitioning] [DEBUG]: KD-tree built successfully
+[2025-06-04 11:06:27,704] [KDTreePartitioning] [DEBUG]: Region boundaries: {'hp_activation_fn_1': ['tanh', 'relu'], 'hp_activation_fn_2': ['tanh', 'relu'], 'hp_batch_size': [8.0, 64.0], 'hp_dropout_1': [0.0, 0.6], 'hp_dropout_2': [0.0, 0.6], 'hp_init_lr': [0.0005, 0.001, 0.005, 0.01, 0.05, 0.1], 'hp_lr_schedule': ['cosine', 'const'], 'hp_n_units_1': [16.0], 'hp_n_units_2': [16.0, 512.0]}
+[2025-06-04 11:06:27,704] [KDTreePartitioning] [DEBUG]: Region boundaries: {'hp_activation_fn_1': ['tanh', 'relu'], 'hp_activation_fn_2': ['tanh', 'relu'], 'hp_batch_size': [8.0, 64.0], 'hp_dropout_1': [0.0, 0.6], 'hp_dropout_2': [0.0, 0.6], 'hp_init_lr': [0.0005, 0.001, 0.005, 0.01, 0.05, 0.1], 'hp_lr_schedule': ['cosine', 'const'], 'hp_n_units_1': [512.0], 'hp_n_units_2': [16.0, 512.0]}
+[2025-06-04 11:06:27,704] [KDTreePartitioning] [DEBUG]: Created 2 regions from KD-tree
+[2025-06-04 11:06:27,704] [SpacePartitioningMOOLLM] [DEBUG]: Number of regions: 2
+[2025-06-04 11:06:27,704] [MOSSRegionACQ] [WARNING]: Requested number of regions (2) exceeds available regions (2). Returning all regions.
+[2025-06-04 11:06:27,704] [SpacePartitioningMOOLLM] [DEBUG]: Selected regions: [Region(volume=768.0, normalized_volume=0.5, center={'hp_activation_fn_1': 'tanh', 'hp_activation_fn_2': 'relu', 'hp_batch_size': 16, 'hp_dropout_1': 0.3, 'hp_dropout_2': 0.3, 'hp_init_lr': 0.1, 'hp_lr_schedule': 'const', 'hp_n_units_1': 32, 'hp_n_units_2': 64}, center_fval={'F1': -0.9790642857551575}, boundaries={'hp_activation_fn_1': ['tanh', 'relu'], 'hp_activation_fn_2': ['tanh', 'relu'], 'hp_batch_size': [8.0, 64.0], 'hp_dropout_1': [0.0, 0.6], 'hp_dropout_2': [0.0, 0.6], 'hp_init_lr': [0.0005, 0.001, 0.005, 0.01, 0.05, 0.1], 'hp_lr_schedule': ['cosine', 'const'], 'hp_n_units_1': [16.0], 'hp_n_units_2': [16.0, 512.0]}, points=[{'hp_activation_fn_1': 'tanh', 'hp_activation_fn_2': 'relu', 'hp_batch_size': 16, 'hp_dropout_1': 0.3, 'hp_dropout_2': 0.3, 'hp_init_lr': 0.1, 'hp_lr_schedule': 'const', 'hp_n_units_1': 32, 'hp_n_units_2': 64}, {'hp_activation_fn_1': 'relu', 'hp_activation_fn_2': 'relu', 'hp_batch_size': 16, 'hp_dropout_1': 0.3, 'hp_dropout_2': 0.0, 'hp_init_lr': 0.005, 'hp_lr_schedule': 'const', 'hp_n_units_1': 64, 'hp_n_units_2': 32}, {'hp_activation_fn_1': 'relu', 'hp_activation_fn_2': 'tanh', 'hp_batch_size': 16, 'hp_dropout_1': 0.3, 'hp_dropout_2': 0.0, 'hp_init_lr': 0.001, 'hp_lr_schedule': 'cosine', 'hp_n_units_1': 64, 'hp_n_units_2': 16}], points_fvals=[{'F1': -0.9790642857551575}, {'F1': -0.05552946403622627}, {'F1': -0.06685396283864975}], range_parameter_keys=[], integer_parameter_keys=[], float_parameter_keys=[]), Region(volume=768.0, normalized_volume=0.5, center={'hp_activation_fn_1': 'relu', 'hp_activation_fn_2': 'relu', 'hp_batch_size': 16, 'hp_dropout_1': 0.3, 'hp_dropout_2': 0.6, 'hp_init_lr': 0.05, 'hp_lr_schedule': 'cosine', 'hp_n_units_1': 128, 'hp_n_units_2': 32}, center_fval={'F1': -0.9789599776268005}, boundaries={'hp_activation_fn_1': ['tanh', 'relu'], 'hp_activation_fn_2': ['tanh', 'relu'], 'hp_batch_size': [8.0, 64.0], 'hp_dropout_1': [0.0, 0.6], 'hp_dropout_2': [0.0, 0.6], 'hp_init_lr': [0.0005, 0.001, 0.005, 0.01, 0.05, 0.1], 'hp_lr_schedule': ['cosine', 'const'], 'hp_n_units_1': [512.0], 'hp_n_units_2': [16.0, 512.0]}, points=[{'hp_activation_fn_1': 'relu', 'hp_activation_fn_2': 'relu', 'hp_batch_size': 16, 'hp_dropout_1': 0.3, 'hp_dropout_2': 0.6, 'hp_init_lr': 0.05, 'hp_lr_schedule': 'cosine', 'hp_n_units_1': 128, 'hp_n_units_2': 32}, {'hp_activation_fn_1': 'tanh', 'hp_activation_fn_2': 'tanh', 'hp_batch_size': 32, 'hp_dropout_1': 0.6, 'hp_dropout_2': 0.6, 'hp_init_lr': 0.005, 'hp_lr_schedule': 'const', 'hp_n_units_1': 128, 'hp_n_units_2': 64}], points_fvals=[{'F1': -0.9789599776268005}, {'F1': -0.18488407135009766}], range_parameter_keys=[], integer_parameter_keys=[], float_parameter_keys=[])]
+[2025-06-04 11:06:27,704] [SpacePartitioningMOOLLM] [DEBUG]: Clustered history: [([{'hp_activation_fn_1': 'tanh', 'hp_activation_fn_2': 'relu', 'hp_batch_size': 16, 'hp_dropout_1': 0.3, 'hp_dropout_2': 0.3, 'hp_init_lr': 0.1, 'hp_lr_schedule': 'const', 'hp_n_units_1': 32, 'hp_n_units_2': 64}], [{'F1': -0.9790642857551575}]), ([{'hp_activation_fn_1': 'relu', 'hp_activation_fn_2': 'relu', 'hp_batch_size': 16, 'hp_dropout_1': 0.3, 'hp_dropout_2': 0.0, 'hp_init_lr': 0.005, 'hp_lr_schedule': 'const', 'hp_n_units_1': 64, 'hp_n_units_2': 32}, {'hp_activation_fn_1': 'tanh', 'hp_activation_fn_2': 'tanh', 'hp_batch_size': 32, 'hp_dropout_1': 0.6, 'hp_dropout_2': 0.6, 'hp_init_lr': 0.005, 'hp_lr_schedule': 'const', 'hp_n_units_1': 128, 'hp_n_units_2': 64}, {'hp_activation_fn_1': 'relu', 'hp_activation_fn_2': 'relu', 'hp_batch_size': 16, 'hp_dropout_1': 0.3, 'hp_dropout_2': 0.6, 'hp_init_lr': 0.05, 'hp_lr_schedule': 'cosine', 'hp_n_units_1': 128, 'hp_n_units_2': 32}, {'hp_activation_fn_1': 'relu', 'hp_activation_fn_2': 'tanh', 'hp_batch_size': 16, 'hp_dropout_1': 0.3, 'hp_dropout_2': 0.0, 'hp_init_lr': 0.001, 'hp_lr_schedule': 'cosine', 'hp_n_units_1': 64, 'hp_n_units_2': 16}], [{'F1': -0.05552946403622627}, {'F1': -0.18488407135009766}, {'F1': -0.9789599776268005}, {'F1': -0.06685396283864975}])]
+[2025-06-04 11:06:27,704] [SpacePartitioningMOOLLM] [DEBUG]: Created threaded instances: [<mooLLM.optimization_strategy.threaded_mooLLM.ThreadedMOOLLM object at 0x7fced1138d90>, <mooLLM.optimization_strategy.threaded_mooLLM.ThreadedMOOLLM object at 0x7fced10e5bd0>]
+[2025-06-04 11:06:27,704] [ThreadedMOOLLM] [INFO]: Starting threaded optimization 0 for region: {
+  hp_activation_fn_1: choice(['tanh', 'relu']),
+  hp_activation_fn_2: choice(['tanh', 'relu']),
+  hp_batch_size: choice([8.0, 64.0]),
+  hp_dropout_1: choice([0.0, 0.6]),
+  hp_dropout_2: choice([0.0, 0.6]),
+  hp_init_lr: choice([0.0005, 0.001, 0.005, 0.01, 0.05, 0.1]),
+  hp_lr_schedule: choice(['cosine', 'const']),
+  hp_n_units_1: choice([16.0]),
+  hp_n_units_2: choice([16.0, 512.0])
+}
+[2025-06-04 11:06:27,704] [CANDIDATE_SAMPLER] [DEBUG]: Generating candidate points
+[2025-06-04 11:06:27,704] [LLM_SAMPLER] [DEBUG]: Generating 2 candidates
+[2025-06-04 11:06:27,705] [LLM_SAMPLER] [DEBUG]: Prompt:
+ # Optimization task
+
+## Problem Description
+You are tasked with solving a optimization problem that requires finding optimal solutions.
+
+- **Evaluation**: Configurations are measured by F1 (lower is better)
+
+## Constraints
+The allowable ranges for the hyperparameters are:
+{
+  hp_activation_fn_1: choice(['tanh', 'relu']),
+  hp_activation_fn_2: choice(['tanh', 'relu']),
+  hp_batch_size: choice([8.0, 64.0]),
+  hp_dropout_1: choice([0.0, 0.6]),
+  hp_dropout_2: choice([0.0, 0.6]),
+  hp_init_lr: choice([0.0005, 0.001, 0.005, 0.01, 0.05, 0.1]),
+  hp_lr_schedule: choice(['cosine', 'const']),
+  hp_n_units_1: choice([16.0]),
+  hp_n_units_2: choice([16.0, 512.0])
+}
+
+## Previously Evaluated Architectures
+Below are examples of architectures that have been evaluated, showing their operations and performance metrics:
+
+Configuration: {"hp_activation_fn_1": tanh, "hp_activation_fn_2": tanh, "hp_batch_size": 32, "hp_dropout_1": 0.6, "hp_dropout_2": 0.6, "hp_init_lr": 0.005, "hp_lr_schedule": const, "hp_n_units_1": 128, "hp_n_units_2": 64} 
+F1: -0.184884
+
+Configuration: {"hp_activation_fn_1": relu, "hp_activation_fn_2": relu, "hp_batch_size": 16, "hp_dropout_1": 0.3, "hp_dropout_2": 0.0, "hp_init_lr": 0.005, "hp_lr_schedule": const, "hp_n_units_1": 64, "hp_n_units_2": 32} 
+F1: -0.055529
+
+Configuration: {"hp_activation_fn_1": relu, "hp_activation_fn_2": relu, "hp_batch_size": 16, "hp_dropout_1": 0.3, "hp_dropout_2": 0.6, "hp_init_lr": 0.05, "hp_lr_schedule": cosine, "hp_n_units_1": 128, "hp_n_units_2": 32} 
+F1: -0.97896
+
+Configuration: {"hp_activation_fn_1": relu, "hp_activation_fn_2": tanh, "hp_batch_size": 16, "hp_dropout_1": 0.3, "hp_dropout_2": 0.0, "hp_init_lr": 0.001, "hp_lr_schedule": cosine, "hp_n_units_1": 64, "hp_n_units_2": 16} 
+F1: -0.066854
+
+Configuration: {"hp_activation_fn_1": tanh, "hp_activation_fn_2": relu, "hp_batch_size": 16, "hp_dropout_1": 0.3, "hp_dropout_2": 0.3, "hp_init_lr": 0.1, "hp_lr_schedule": const, "hp_n_units_1": 32, "hp_n_units_2": 64} 
+F1: -0.979064
+
+
+## Your Task
+Generate 2 new architecture configurations that:
+1. Are likely to achieve lower F1 (lower is better) than the examples
+2. Are different from all previously evaluated architectures
+3. Satisfy all the specified constraints: {
+  hp_activation_fn_1: choice(['tanh', 'relu']),
+  hp_activation_fn_2: choice(['tanh', 'relu']),
+  hp_batch_size: choice([8.0, 64.0]),
+  hp_dropout_1: choice([0.0, 0.6]),
+  hp_dropout_2: choice([0.0, 0.6]),
+  hp_init_lr: choice([0.0005, 0.001, 0.005, 0.01, 0.05, 0.1]),
+  hp_lr_schedule: choice(['cosine', 'const']),
+  hp_n_units_1: choice([16.0]),
+  hp_n_units_2: choice([16.0, 512.0])
+}
+
+## Output Format
+Each configuration has to follow this format:
+
+{"hp_activation_fn_1": $hp_activation_fn_1, "hp_activation_fn_2": $hp_activation_fn_2, "hp_batch_size": $hp_batch_size, "hp_dropout_1": $hp_dropout_1, "hp_dropout_2": $hp_dropout_2, "hp_init_lr": $hp_init_lr, "hp_lr_schedule": $hp_lr_schedule, "hp_n_units_1": $hp_n_units_1, "hp_n_units_2": $hp_n_units_2}
+
+Provide your response in a JSON list containing each proposed configuration.
+Return only the required JSON list output without additional text.
+[2025-06-04 11:06:31,818] [STATISTICS] [INFO]: Cost of the request: {'prompt_cost': 0.00016695, 'completion_cost': 0.00011999999999999999, 'total_cost': 0.00028695} USD
+[2025-06-04 11:06:31,818] [STATISTICS] [INFO]: Token usage of the request: CompletionUsage(completion_tokens=200, prompt_tokens=1113, total_tokens=1313, completion_tokens_details=CompletionTokensDetails(accepted_prediction_tokens=0, audio_tokens=0, reasoning_tokens=0, rejected_prediction_tokens=0), prompt_tokens_details=PromptTokensDetails(audio_tokens=0, cached_tokens=0))
+[2025-06-04 11:06:31,819] [LLM_SAMPLER] [DEBUG]: Response 
+ ```json
+[
+    {"hp_activation_fn_1": "relu", "hp_activation_fn_2": "tanh", "hp_batch_size": 64.0, "hp_dropout_1": 0.6, "hp_dropout_2": 0.6, "hp_init_lr": 0.0005, "hp_lr_schedule": "cosine", "hp_n_units_1": 16.0, "hp_n_units_2": 512.0},
+    {"hp_activation_fn_1": "tanh", "hp_activation_fn_2": "relu", "hp_batch_size": 8.0, "hp_dropout_1": 0.0, "hp_dropout_2": 0.6, "hp_init_lr": 0.01, "hp_lr_schedule": "const", "hp_n_units_1": 16.0, "hp_n_units_2": 512.0}
+]
+```
+[2025-06-04 11:06:31,819] [LLMInterface] [DEBUG]: LLM raw response: ```json
+[
+    {"hp_activation_fn_1": "relu", "hp_activation_fn_2": "tanh", "hp_batch_size": 64.0, "hp_dropout_1": 0.6, "hp_dropout_2": 0.6, "hp_init_lr": 0.0005, "hp_lr_schedule": "cosine", "hp_n_units_1": 16.0, "hp_n_units_2": 512.0},
+    {"hp_activation_fn_1": "tanh", "hp_activation_fn_2": "relu", "hp_batch_size": 8.0, "hp_dropout_1": 0.0, "hp_dropout_2": 0.6, "hp_init_lr": 0.01, "hp_lr_schedule": "const", "hp_n_units_1": 16.0, "hp_n_units_2": 512.0}
+]
+```
+[2025-06-04 11:06:31,819] [LLMInterface] [DEBUG]: MODEL RESPONSE MATCH: <re.Match object; span=(0, 462), match='```json\n[\n    {"hp_activation_fn_1": "relu", "h>
+[2025-06-04 11:06:31,819] [LLM_SAMPLER] [DEBUG]: LLM response: [{'hp_activation_fn_1': 'relu', 'hp_activation_fn_2': 'tanh', 'hp_batch_size': 64.0, 'hp_dropout_1': 0.6, 'hp_dropout_2': 0.6, 'hp_init_lr': 0.0005, 'hp_lr_schedule': 'cosine', 'hp_n_units_1': 16.0, 'hp_n_units_2': 512.0}, {'hp_activation_fn_1': 'tanh', 'hp_activation_fn_2': 'relu', 'hp_batch_size': 8.0, 'hp_dropout_1': 0.0, 'hp_dropout_2': 0.6, 'hp_init_lr': 0.01, 'hp_lr_schedule': 'const', 'hp_n_units_1': 16.0, 'hp_n_units_2': 512.0}]
+[2025-06-04 11:06:31,819] [CANDIDATE_SAMPLER] [DEBUG]: Filtering candidates based on region constraints
+[2025-06-04 11:06:31,819] [CANDIDATE_SAMPLER] [DEBUG]: Region constraints: {'hp_activation_fn_1': ['tanh', 'relu'], 'hp_activation_fn_2': ['tanh', 'relu'], 'hp_batch_size': [8.0, 64.0], 'hp_dropout_1': [0.0, 0.6], 'hp_dropout_2': [0.0, 0.6], 'hp_init_lr': [0.0005, 0.001, 0.005, 0.01, 0.05, 0.1], 'hp_lr_schedule': ['cosine', 'const'], 'hp_n_units_1': [16.0], 'hp_n_units_2': [16.0, 512.0]}
+[2025-06-04 11:06:31,819] [CANDIDATE_SAMPLER] [DEBUG]: Filtered candidates before region constraints: [{'hp_activation_fn_1': 'relu', 'hp_activation_fn_2': 'tanh', 'hp_batch_size': 64.0, 'hp_dropout_1': 0.6, 'hp_dropout_2': 0.6, 'hp_init_lr': 0.0005, 'hp_lr_schedule': 'cosine', 'hp_n_units_1': 16.0, 'hp_n_units_2': 512.0}, {'hp_activation_fn_1': 'tanh', 'hp_activation_fn_2': 'relu', 'hp_batch_size': 8.0, 'hp_dropout_1': 0.0, 'hp_dropout_2': 0.6, 'hp_init_lr': 0.01, 'hp_lr_schedule': 'const', 'hp_n_units_1': 16.0, 'hp_n_units_2': 512.0}]
+[2025-06-04 11:06:31,819] [CANDIDATE_SAMPLER] [DEBUG]: Filtered candidates after region constraints: [{'hp_activation_fn_1': 'relu', 'hp_activation_fn_2': 'tanh', 'hp_batch_size': 64.0, 'hp_dropout_1': 0.6, 'hp_dropout_2': 0.6, 'hp_init_lr': 0.0005, 'hp_lr_schedule': 'cosine', 'hp_n_units_1': 16.0, 'hp_n_units_2': 512.0}, {'hp_activation_fn_1': 'tanh', 'hp_activation_fn_2': 'relu', 'hp_batch_size': 8.0, 'hp_dropout_1': 0.0, 'hp_dropout_2': 0.6, 'hp_init_lr': 0.01, 'hp_lr_schedule': 'const', 'hp_n_units_1': 16.0, 'hp_n_units_2': 512.0}]
+[2025-06-04 11:06:31,819] [CANDIDATE_SAMPLER] [DEBUG]: Number of candidate points: 2
+[2025-06-04 11:06:31,819] [LLM_Surrogate_batch] [DEBUG]: Evaluating candidates
+[2025-06-04 11:06:31,819] [LLM_Surrogate_batch] [DEBUG]: Evaluating candidates [{'hp_activation_fn_1': 'relu', 'hp_activation_fn_2': 'tanh', 'hp_batch_size': 64.0, 'hp_dropout_1': 0.6, 'hp_dropout_2': 0.6, 'hp_init_lr': 0.0005, 'hp_lr_schedule': 'cosine', 'hp_n_units_1': 16.0, 'hp_n_units_2': 512.0}, {'hp_activation_fn_1': 'tanh', 'hp_activation_fn_2': 'relu', 'hp_batch_size': 8.0, 'hp_dropout_1': 0.0, 'hp_dropout_2': 0.6, 'hp_init_lr': 0.01, 'hp_lr_schedule': 'const', 'hp_n_units_1': 16.0, 'hp_n_units_2': 512.0}]
+[2025-06-04 11:06:31,819] [LLM_Surrogate_batch] [DEBUG]: Prompt:
+ # Configuration Performance Prediction
+
+## Problem Description
+You are tasked with predicting the performance of configurations.
+
+- **Evaluation Metric**: F1 (lower is better) (to be predicted)
+- **Constraint**: The allowable ranges for the hyperparameter are: Configuration: {"hp_activation_fn_1": relu, "hp_activation_fn_2": tanh, "hp_batch_size": 16, "hp_dropout_1": 0.3, "hp_dropout_2": 0.0, "hp_init_lr": 0.001, "hp_lr_schedule": cosine, "hp_n_units_1": 64, "hp_n_units_2": 16} 
+F1: -0.066854
+
+Configuration: {"hp_activation_fn_1": tanh, "hp_activation_fn_2": tanh, "hp_batch_size": 32, "hp_dropout_1": 0.6, "hp_dropout_2": 0.6, "hp_init_lr": 0.005, "hp_lr_schedule": const, "hp_n_units_1": 128, "hp_n_units_2": 64} 
+F1: -0.184884
+
+Configuration: {"hp_activation_fn_1": relu, "hp_activation_fn_2": relu, "hp_batch_size": 16, "hp_dropout_1": 0.3, "hp_dropout_2": 0.0, "hp_init_lr": 0.005, "hp_lr_schedule": const, "hp_n_units_1": 64, "hp_n_units_2": 32} 
+F1: -0.055529
+
+Configuration: {"hp_activation_fn_1": relu, "hp_activation_fn_2": relu, "hp_batch_size": 16, "hp_dropout_1": 0.3, "hp_dropout_2": 0.6, "hp_init_lr": 0.05, "hp_lr_schedule": cosine, "hp_n_units_1": 128, "hp_n_units_2": 32} 
+F1: -0.97896
+
+Configuration: {"hp_activation_fn_1": tanh, "hp_activation_fn_2": relu, "hp_batch_size": 16, "hp_dropout_1": 0.3, "hp_dropout_2": 0.3, "hp_init_lr": 0.1, "hp_lr_schedule": const, "hp_n_units_1": 32, "hp_n_units_2": 64} 
+F1: -0.979064
+
+
+## Reference configurations with Known Performance
+Below are examples of configurations that have been evaluated, showing their operations and performance metrics:
+
+## Candidate configurations to Evaluate
+You must predict performance for these new configurations:
+
+1: {'hp_activation_fn_1': 'relu', 'hp_activation_fn_2': 'tanh', 'hp_batch_size': 64.0, 'hp_dropout_1': 0.6, 'hp_dropout_2': 0.6, 'hp_init_lr': 0.0005, 'hp_lr_schedule': 'cosine', 'hp_n_units_1': 16.0, 'hp_n_units_2': 512.0}
+2: {'hp_activation_fn_1': 'tanh', 'hp_activation_fn_2': 'relu', 'hp_batch_size': 8.0, 'hp_dropout_1': 0.0, 'hp_dropout_2': 0.6, 'hp_init_lr': 0.01, 'hp_lr_schedule': 'const', 'hp_n_units_1': 16.0, 'hp_n_units_2': 512.0}
+
+## Your Task
+1. Predict the F1 (lower is better) value for each candidate configuration
+2. Base your predictions on patterns in the reference examples
+
+## Output Format
+Each evaluation has to follow this format:
+
+{"F1": $F1}
+
+Provide your response in a JSON list containing each proposed evaluation.
+Return only the required JSON list output without additional text.
+[2025-06-04 11:06:33,015] [STATISTICS] [INFO]: Cost of the request: {'prompt_cost': 0.00013185, 'completion_cost': 1.3799999999999998e-05, 'total_cost': 0.00014565000000000002} USD
+[2025-06-04 11:06:33,015] [STATISTICS] [INFO]: Token usage of the request: CompletionUsage(completion_tokens=23, prompt_tokens=879, total_tokens=902, completion_tokens_details=CompletionTokensDetails(accepted_prediction_tokens=0, audio_tokens=0, reasoning_tokens=0, rejected_prediction_tokens=0), prompt_tokens_details=PromptTokensDetails(audio_tokens=0, cached_tokens=0))
+[2025-06-04 11:06:33,015] [LLMInterface] [DEBUG]: LLM raw response: ```json
+[{"F1": -0.245}, {"F1": -0.350}]
+```
+[2025-06-04 11:06:33,015] [LLMInterface] [DEBUG]: MODEL RESPONSE MATCH: <re.Match object; span=(0, 44), match='```json\n[{"F1": -0.245}, {"F1": -0.350}]\n```'>
+[2025-06-04 11:06:33,015] [SURROGATE_MODEL] [DEBUG]: LLM response: [{'F1': -0.245}, {'F1': -0.35}]
+[2025-06-04 11:06:33,015] [LLM_Surrogate_batch] [DEBUG]: Evaluations of candidates: [{'F1': -0.245}, {'F1': -0.35}]
+[2025-06-04 11:06:33,015] [ThreadedMOOLLM] [INFO]: Starting threaded optimization 1 for region: {
+  hp_activation_fn_1: choice(['tanh', 'relu']),
+  hp_activation_fn_2: choice(['tanh', 'relu']),
+  hp_batch_size: choice([8.0, 64.0]),
+  hp_dropout_1: choice([0.0, 0.6]),
+  hp_dropout_2: choice([0.0, 0.6]),
+  hp_init_lr: choice([0.0005, 0.001, 0.005, 0.01, 0.05, 0.1]),
+  hp_lr_schedule: choice(['cosine', 'const']),
+  hp_n_units_1: choice([512.0]),
+  hp_n_units_2: choice([16.0, 512.0])
+}
+[2025-06-04 11:06:33,016] [CANDIDATE_SAMPLER] [DEBUG]: Generating candidate points
+[2025-06-04 11:06:33,016] [LLM_SAMPLER] [DEBUG]: Generating 2 candidates
+[2025-06-04 11:06:33,016] [LLM_SAMPLER] [DEBUG]: Prompt:
+ # Optimization task
+
+## Problem Description
+You are tasked with solving a optimization problem that requires finding optimal solutions.
+
+- **Evaluation**: Configurations are measured by F1 (lower is better)
+
+## Constraints
+The allowable ranges for the hyperparameters are:
+{
+  hp_activation_fn_1: choice(['tanh', 'relu']),
+  hp_activation_fn_2: choice(['tanh', 'relu']),
+  hp_batch_size: choice([8.0, 64.0]),
+  hp_dropout_1: choice([0.0, 0.6]),
+  hp_dropout_2: choice([0.0, 0.6]),
+  hp_init_lr: choice([0.0005, 0.001, 0.005, 0.01, 0.05, 0.1]),
+  hp_lr_schedule: choice(['cosine', 'const']),
+  hp_n_units_1: choice([512.0]),
+  hp_n_units_2: choice([16.0, 512.0])
+}
+
+## Previously Evaluated Architectures
+Below are examples of architectures that have been evaluated, showing their operations and performance metrics:
+
+Configuration: {"hp_activation_fn_1": relu, "hp_activation_fn_2": relu, "hp_batch_size": 16, "hp_dropout_1": 0.3, "hp_dropout_2": 0.6, "hp_init_lr": 0.05, "hp_lr_schedule": cosine, "hp_n_units_1": 128, "hp_n_units_2": 32} 
+F1: -0.97896
+
+Configuration: {"hp_activation_fn_1": tanh, "hp_activation_fn_2": tanh, "hp_batch_size": 32, "hp_dropout_1": 0.6, "hp_dropout_2": 0.6, "hp_init_lr": 0.005, "hp_lr_schedule": const, "hp_n_units_1": 128, "hp_n_units_2": 64} 
+F1: -0.184884
+
+Configuration: {"hp_activation_fn_1": relu, "hp_activation_fn_2": relu, "hp_batch_size": 16, "hp_dropout_1": 0.3, "hp_dropout_2": 0.0, "hp_init_lr": 0.005, "hp_lr_schedule": const, "hp_n_units_1": 64, "hp_n_units_2": 32} 
+F1: -0.055529
+
+Configuration: {"hp_activation_fn_1": tanh, "hp_activation_fn_2": relu, "hp_batch_size": 16, "hp_dropout_1": 0.3, "hp_dropout_2": 0.3, "hp_init_lr": 0.1, "hp_lr_schedule": const, "hp_n_units_1": 32, "hp_n_units_2": 64} 
+F1: -0.979064
+
+Configuration: {"hp_activation_fn_1": relu, "hp_activation_fn_2": tanh, "hp_batch_size": 16, "hp_dropout_1": 0.3, "hp_dropout_2": 0.0, "hp_init_lr": 0.001, "hp_lr_schedule": cosine, "hp_n_units_1": 64, "hp_n_units_2": 16} 
+F1: -0.066854
+
+
+## Your Task
+Generate 2 new architecture configurations that:
+1. Are likely to achieve lower F1 (lower is better) than the examples
+2. Are different from all previously evaluated architectures
+3. Satisfy all the specified constraints: {
+  hp_activation_fn_1: choice(['tanh', 'relu']),
+  hp_activation_fn_2: choice(['tanh', 'relu']),
+  hp_batch_size: choice([8.0, 64.0]),
+  hp_dropout_1: choice([0.0, 0.6]),
+  hp_dropout_2: choice([0.0, 0.6]),
+  hp_init_lr: choice([0.0005, 0.001, 0.005, 0.01, 0.05, 0.1]),
+  hp_lr_schedule: choice(['cosine', 'const']),
+  hp_n_units_1: choice([512.0]),
+  hp_n_units_2: choice([16.0, 512.0])
+}
+
+## Output Format
+Each configuration has to follow this format:
+
+{"hp_activation_fn_1": $hp_activation_fn_1, "hp_activation_fn_2": $hp_activation_fn_2, "hp_batch_size": $hp_batch_size, "hp_dropout_1": $hp_dropout_1, "hp_dropout_2": $hp_dropout_2, "hp_init_lr": $hp_init_lr, "hp_lr_schedule": $hp_lr_schedule, "hp_n_units_1": $hp_n_units_1, "hp_n_units_2": $hp_n_units_2}
+
+Provide your response in a JSON list containing each proposed configuration.
+Return only the required JSON list output without additional text.
